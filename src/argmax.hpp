@@ -8,11 +8,12 @@ namespace studd
     // returns an iterator to the element which maximizes the function
     template<class InputIt, class UnaryFunction,
              class T = typename std::iterator_traits<InputIt>::value_type>
-    InputIt argmax(InputIt first, InputIt last, UnaryFunction f)
+    auto argmax(InputIt first, InputIt last, UnaryFunction f)
+        -> std::pair<InputIt, decltype(f(*first))>
     {
         assert(std::distance(first, last) > 0);
 
-        T max;
+        decltype(f(*first)) max{};
         InputIt max_it;
 
         for (auto it = first; it != last; ++it)
@@ -25,6 +26,6 @@ namespace studd
             }
         }
 
-        return max_it;
+        return std::make_pair(max_it, max);
     }
 }
